@@ -6,7 +6,6 @@ import json
 import asyncio
 import time
 from datetime import datetime, timedelta
-import aiohttp  
 from dotenv import load_dotenv
 from urllib.parse import urlparse, urlunparse, urlencode
 import iop
@@ -18,6 +17,26 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, JobQueue 
 from telegram.constants import ParseMode, ChatAction
 
+# Initialize logger
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
+# Resolve the short link to the full AliExpress product URL
+async def resolve_short_link(url: str, session: aiohttp.ClientSession) -> str:
+    """Resolve the short link to the full AliExpress product URL."""
+    try:
+        async with session.head(url, allow_redirects=True) as response:
+            # Return the final URL after redirection
+            return str(response.url)
+    except Exception as e:
+        logger.error(f"Error resolving short link {url}: {e}")
+        return None
+
+# rest of the code follows...
 
 # --- Environment Variable Loading ---
 load_dotenv()
@@ -26,7 +45,7 @@ TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 ALIEXPRESS_APP_KEY = os.getenv('ALIEXPRESS_APP_KEY')
 ALIEXPRESS_APP_SECRET = os.getenv('ALIEXPRESS_APP_SECRET')
 TARGET_CURRENCY = os.getenv('TARGET_CURRENCY', 'USD')
-TARGET_LANGUAGE = os.getenv('TARGET_LANGUAGE', 'en')
+TARGET_LANGUAGE = os.getenv('TARGET_LANGUAGE', 'ar')
 QUERY_COUNTRY = os.getenv('QUERY_COUNTRY', 'US')
 ALIEXPRESS_TRACKING_ID = os.getenv('ALIEXPRESS_TRACKING_ID', 'default')
 
@@ -645,27 +664,20 @@ async def process_product_telegram(product_id: str, base_url: str, update: Updat
             offer_name = OFFER_PARAMS[offer_key]["name"]
             if link:
                 # Ensure link is properly HTML escaped if needed (though URLs usually are safe)
-                message_lines.append(f'{offer_name}: <a href="{link}">Click Here</a>')
+               message_lines.append(f'{offer_name}: {link}')
             else:
                 message_lines.append(f"{offer_name}: ❌ Failed")
 
         # Add footer text
-        message_lines.append("\n<i>By RizoZ</i>")
+    
         response_text = "\n".join(message_lines)
 
         # --- Create Inline Keyboard ---
         keyboard = [
+     
+            
             [
-                InlineKeyboardButton("Choice Day", url="https://s.click.aliexpress.com/e/_oCPK1K1"),
-                InlineKeyboardButton("Best Deals", url="https://s.click.aliexpress.com/e/_onx9vR3")
-            ],
-            [
-                InlineKeyboardButton("GitHub", url="https://github.com/ReizoZ"),
-                InlineKeyboardButton("Discord", url="https://discord.gg/9QzECYfmw8"),
-                InlineKeyboardButton("Telegram", url="https://t.me/Aliexpress_Deal_Dz")
-            ],
-            [
-                InlineKeyboardButton("☕ Buy Me Coffee", url="https://ko-fi.com/reizoz")
+                InlineKeyboardButton("Instagram", url="https://www.instagram.com/kc7.5/")
             ]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
