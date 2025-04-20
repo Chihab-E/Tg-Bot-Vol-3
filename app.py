@@ -25,10 +25,10 @@ load_dotenv()
 TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 ALIEXPRESS_APP_KEY = os.getenv('ALIEXPRESS_APP_KEY')
 ALIEXPRESS_APP_SECRET = os.getenv('ALIEXPRESS_APP_SECRET')
-TARGET_CURRENCY = os.getenv('TARGET_CURRENCY', 'USD')
-TARGET_LANGUAGE = os.getenv('TARGET_LANGUAGE', 'en')
-QUERY_COUNTRY = os.getenv('QUERY_COUNTRY', 'US')
-ALIEXPRESS_TRACKING_ID = os.getenv('ALIEXPRESS_TRACKING_ID', 'default')
+TARGET_CURRENCY = os.getenv('USD')
+TARGET_LANGUAGE = os.getenv('en')
+QUERY_COUNTRY = os.getenv('US')
+ALIEXPRESS_TRACKING_ID = os.getenv('default')
 
 # --- Basic Logging Setup ---
 logging.basicConfig(
