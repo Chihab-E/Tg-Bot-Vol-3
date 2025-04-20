@@ -93,10 +93,10 @@ SHORT_LINK_DOMAIN_REGEX = re.compile(r'https?://(?:s\.click\.aliexpress\.com/e/|
 
 # --- Offer Parameter Mapping ---
 OFFER_PARAMS = {
-    "coin": {"name": "🪙 Coin", "params": {"sourceType": "620%26channel=coin" , "afSmartRedirect": "y"}},
-    "super": {"name": "🔥 Super Deals", "params": {"sourceType": "562", "channel": "sd" , "afSmartRedirect": "y"}},
-    "limited": {"name": "⏳ Limited Offers", "params": {"sourceType": "561", "channel": "limitedoffers" , "afSmartRedirect": "y"}},
-    "bigsave": {"name": "💰 Big Save", "params": {"sourceType": "680", "channel": "bigSave" , "afSmartRedirect": "y"}},
+    "coin": {"name": "🪙 تخفيض العملات", "params": {"sourceType": "620%26channel=coin" , "afSmartRedirect": "y"}},
+    "super": {"name": "🔥 السوبر ديلز", "params": {"sourceType": "562", "channel": "sd" , "afSmartRedirect": "y"}},
+    "limited": {"name": "⏳ العرض المحدود", "params": {"sourceType": "561", "channel": "limitedoffers" , "afSmartRedirect": "y"}},
+    "bigsave": {"name": "💰 التخفيض الكبير", "params": {"sourceType": "680", "channel": "bigSave" , "afSmartRedirect": "y"}},
 }
 OFFER_ORDER = ["coin", "super", "limited", "bigsave"]
 
@@ -551,16 +551,13 @@ async def generate_affiliate_links_batch(target_urls: list[str]) -> dict[str, st
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Sends a welcome message when the /start command is issued."""
     await update.message.reply_html(
-        "👋 Welcome to the AliExpress Discount Bot! 🛍️\n\n"
-        "🔍 <b>How to use this bot:</b>\n"
-        "1️⃣ Copy a product link from AliExpress 📋\n"
-        "2️⃣ Send the link to this bot 📤\n"
-        "3️⃣ The bot will automatically generate affiliate links for you ✨\n"
-        "4️⃣ Use the links to share and earn 💰\n\n"
-        "🔗 <b>Supported link types:</b>\n"
-        "• Regular AliExpress product links 🌐\n"
-        "• Shortened AliExpress links 🔄\n\n"
-        "🚀 Send any AliExpress product link now to try the bot! 🎁"
+        "👋 مرحبا بك في بةت تخفيض العملات! 🛍️\n\n"
+        "🔍 <b>كيفية استعمال البوت ؟</b>\n"
+        "1️⃣ قم بعمل نسخ لرابط منتج ما من الي اكسبرس 📋\n"
+        "2️⃣ أرسل رابط المنتج الى البوت 📤\n"
+        "3️⃣ البوت سيقوم اوتوماتيكا بعمل رابط جديد يحتوي على تخفيض اكبر  ✨\n"
+        "🔗 <b>أنواع الروابط المدعومة</b>\n"
+        "• روابط الي اكسبرس العادية 🌐\n"
     )
 
 # --- Telegram Message Processing ---
@@ -579,7 +576,7 @@ async def process_product_telegram(product_id: str, base_url: str, update: Updat
         product_price = None
         product_currency = ''
         product_title = f"Product {product_id}" # Default title
-        price_str = "Price not available"
+        price_str = "السعر غير متوفر"
         details_source = "None" # Track where details came from: 'API', 'Scraped', 'None'
 
         if product_details:
@@ -652,13 +649,13 @@ async def process_product_telegram(product_id: str, base_url: str, update: Updat
 
         # Add price only if available (from API)
         if details_source == "API" and product_price:
-             message_lines.append(f"\n<b>Sale Price:</b> {price_str}\n")
+             message_lines.append(f"\n<b>: سعر التخفيض</b> {price_str}\n")
         elif details_source == "Scraped":
-             message_lines.append("\n<b>Sale Price:</b> Unavailable \n") 
+             message_lines.append("\n<b>: سعر التخفيض</b> Unavailable \n") 
         else: # details_source == "None"
-             message_lines.append("\n<b>Product details unavailable</b>\n")
+             message_lines.append("\n<b>بيانات المنتج غير متاحة</b>\n")
 
-        message_lines.append("<b>Offers:</b>")
+        message_lines.append("<b>العروض :</b>")
 
         for offer_key in OFFER_ORDER:
             link = generated_links.get(offer_key)
@@ -667,7 +664,7 @@ async def process_product_telegram(product_id: str, base_url: str, update: Updat
                 # Ensure link is properly HTML escaped if needed (though URLs usually are safe)
                message_lines.append(f'{offer_name}: {link}')
             else:
-                message_lines.append(f"{offer_name}: ❌ Failed")
+                message_lines.append(f"{offer_name}: ❌ خطأ")
 
         # Add footer text
     
