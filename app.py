@@ -676,6 +676,8 @@ async def process_product_telegram(product_id: str, base_url: str, update: Updat
             
             [
                 InlineKeyboardButton("Instagram", url="https://www.instagram.com/kc7.5/")
+                InlineKeyboardButton("Telegram", url="https://t.me/Tcoupon")
+
             ]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
