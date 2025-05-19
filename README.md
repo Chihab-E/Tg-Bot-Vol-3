@@ -7,7 +7,7 @@ A Python-based Telegram bot that automatically detects AliExpress product links 
 *   **Automatic Link Detection:** Monitors chats for AliExpress product URLs using regex.
 *   **Product Details:** Fetches product title, main image, and sale price via the AliExpress Affiliate API.
 *   **Multiple Affiliate Links:** Generates affiliate links for various AliExpress promotions:
-UPDATE : COINS ARE NOT WORKING ANYMORE !
+**UPDATE : COINS ARE NOT WORKING ANYMORE !**
      *   🪙 Coin Offers
     *   🔥 Super Deals
     *   ⏳ Limited Offers
@@ -139,13 +139,6 @@ Key Python libraries used:
 
 See `requirements.txt` for a full list.
 
-## Contributing
-
-Contributions, issues, and feature requests are welcome. Feel free to check the [issues page](https://github.com/ReizoZ/Aliexpress-telegram-bot.git/issues) if you want to contribute.
-
-## Author
-
-*   **RizoZ** - [GitHub](https://github.com/ReizoZ)
 
 ## License
 
